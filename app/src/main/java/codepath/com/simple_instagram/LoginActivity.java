@@ -10,8 +10,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -20,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
+    private Button btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +32,23 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignUp = findViewById(R.id.btnSignUp);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 login(username, password);
+            }
+        });
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+                signUp(username, password);
+                return;
             }
         });
     }
@@ -51,14 +65,37 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 // TODO: navigate to new activity if the user has signed properly
                 goMainActivity();
-                Log.e(TAG, "Login succeed!");
-                Toast.makeText(LoginActivity.this, "Login succeed!", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Login succeed!");
+                Toast.makeText(LoginActivity.this, "Login success!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void signUp(String username, String password){
+        ParseUser user = new ParseUser();
+
+        user.setUsername(username);
+        user.setPassword(password);
+
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null){
+                    Toast.makeText(LoginActivity.this, "Sign Up Success", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Log.e(TAG, "Sign up failed!");
+                    e.printStackTrace();
+                    return;
+                }
             }
         });
     }
 
     private void goMainActivity(){
+        Log.d(TAG, "Navigating to goMainActivity!");
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        finish();
     }
 }
