@@ -64,12 +64,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             tvHandle.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
             if(image != null) {
-                Glide.with(context).load(image.getUrl()).into(ivImage);
                 String url = image.getUrl();
+                url = url.substring(0, 4) + "s" + url.substring(4, url.length());
+                Glide.with(context).load(url).into(ivImage);
                 Log.d(TAG, "The Url of Image is:" + url);
             }
             else{
-                Log.e(TAG, "Image failed!");
+                Log.d(TAG, "Image empty or failed!");
             }
 
             tvDescription.setText(post.getDescription());
