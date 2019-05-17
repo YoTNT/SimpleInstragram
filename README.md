@@ -1,4 +1,4 @@
-# Project 3 - *Build Instagram from the Ground Up - Part 2*
+# Project 3 - *Build Instagram from the Ground Up*
 
 **Build Instagram from the Ground Up - Part 2** is a photo sharing app similar to Instagram but using Parse as its backend.
 
